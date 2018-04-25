@@ -3,6 +3,12 @@
 <head>
 <title>Page Title</title>
 <style>
+body {
+    margin: 0;
+    background: #262626;
+    color: #aaaaaa;
+    height: 100%;
+}
 
 h1 {
     text-align: center;
@@ -62,6 +68,39 @@ p {
   list-style-type: none;
 }
 
+#bubble {
+  list-style-type: none;
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  font-size: 30px;
+  color: #fff;
+  line-height: 25px;
+  text-align: center;
+  background: #484848;
+  -webkit-transition: transform 0.5s, background 0.5s;
+}
+
+#bubble-child {
+  margin-top:30px;
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center;
+}
+
+#bubble > li:nth-last-child(-n+2) {
+  visibility: hidden;
+}
+
+#bubble:hover {
+  background: #373737;
+  transform:scale(1.1);
+}
+
+#bubble:hover > li{
+  visibility: visible;
+}
+
 .ele {
   border: solid;
 
@@ -72,8 +111,7 @@ p {
 }
 </style>
 </head>
-<body>
-
+<body id="body">
 <h1>Music Recommendation for you</h1>
 <div name="usage">
   <h2>We recommend music for users based on what they like. See the songs liked by the people who share your taste.</h2>
@@ -90,17 +128,45 @@ p {
     <ul id="rec_list"></ul>
   </div>
 </div>
-
 <script>
 function SeeRecommendation() {
   document.getElementById("recommendation").innerHTML="This is what we recommend";
+  class bubble {
+    constructor() {
+      this.element = document.createElement("ol");
+      var c0 = this.element.appendChild(document.createElement("li"));
+      var c1 = this.element.appendChild(document.createElement("li"));
+      var c2 = this.element.appendChild(document.createElement("li"));
+      c0.setAttribute("id","bubble-child");
+      c1.setAttribute("id","bubble-child");
+      c2.setAttribute("id","bubble-child");
+      c0.innerHTML = "here0";
+      c1.innerHTML = "here1";
+      c2.innerHTML = "here2";
+      this.element.setAttribute("id","bubble");
+      document.body.appendChild(this.element);
+      this.element.style.border = "3px solid";
+      this.element.style.position = "absolute";
+      this.element.style.left = "0px";
+      this.element.style.top = "0px";
+    }
+    set_x(x){
+      this.element.style.left = x;
+    }
+    set_y(y){
+      this.element.style.top = y;
+    }
+  }
   var numberList = document.getElementById("rec_list");
-  for (var i = 0; i < 10; i++){
-    var newNumberListItem = document.createElement("li");
-    newNumberListItem.setAttribute('class','ele');
-    var numberListValue = document.createTextNode(i);
-    newNumberListItem.appendChild(numberListValue);
-    numberList.appendChild(newNumberListItem);
+  var num;
+  var rad = 360/10;
+  var posx = 600;
+  var posy = 800;
+  var radius = 350;
+  for (var i = 1; i < 11; i++){
+    var newbub = new bubble();
+    newbub.set_x((posx+Math.sin(rad*i*3.141592697989/180)*radius).toString().concat("px"));
+    newbub.set_y((posy+Math.cos(rad*i*3.141592697989/180)*radius).toString().concat("px"));
   }
   xhttp = new XMLHttpRequest();
   xhttp.onreadystatechange = function() {
