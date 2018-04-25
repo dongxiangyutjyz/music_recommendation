@@ -6,7 +6,6 @@ def gen_data(song_file, n_user):
     with open(song_file) as f:
         songs = open(song_file).readlines()
         songs = songs[0].split('\r')
-        songs = songs[:50]
 
     user_songs = {}
     user_songs = user_songs.fromkeys(names)
@@ -32,8 +31,8 @@ def gen_data(song_file, n_user):
 
 
 if __name__ == "__main__":
-    u_s, s_u = gen_data('./data/test_sample.txt', 20)
+    u_s, s_u = gen_data('./data/test_sample.txt', 2000)
 #    print s_u
-    for i in s_u:
-        print s_u[i]
+    '''for i in s_u:
+        print s_u[i]'''
 #    print len(s_u)
