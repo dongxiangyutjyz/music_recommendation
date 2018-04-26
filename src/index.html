@@ -168,20 +168,15 @@ function SeeRecommendation() {
     newbub.set_x((posx+Math.sin(rad*i*3.141592697989/180)*radius).toString().concat("px"));
     newbub.set_y((posy+Math.cos(rad*i*3.141592697989/180)*radius).toString().concat("px"));
   }
-  xhttp = new XMLHttpRequest();
+  var xhttp = new XMLHttpRequest();
   xhttp.onreadystatechange = function() {
-    if (this.readyState == 4 && this.status == 200){
-      xhttp.open("GET",url,true);
-      document.getElementById("userName").innerHTML = this.responseText;
-      for (var i = 0; i < 10; i++){
-        var newNumberListItem = document.createElement("li");
-        var numberListValue = document.createTextNode(i);
-        newNumberListItem.appendChild(numberListValue);
-        numberList.appendChild(newNumberListItem);
-      }
-      document.getElementById("recommendation").innerHTML = this.responseText;
-      xhttp.send(null);
+    if (xhttp.readyState == 4 && xhttp.status == 200){
+      var responses = JSON.parse(xhttp.responseText);
     }
+    xhttp.open("GET","/search",true);
+    xhttp.send(null);
+    console.log("Success");
+    //document.getElementById("userName").innerHTML = responses;
   }
 }
 </script>
