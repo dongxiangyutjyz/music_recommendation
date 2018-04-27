@@ -47,7 +47,7 @@ class _music_database:
 
     def random_user(self):
         user_list = self.users.keys()
-        user = user_list[random.randint(0, len(user_list))]
+        user = random.choice(user_list)
         music_list = self.users.get(user)
         d =  {"user_name": user, "music_list": music_list, "status": "success"}
         return d
