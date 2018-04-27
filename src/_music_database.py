@@ -1,4 +1,4 @@
-from genetate_data import gen_data
+from generate_data import gen_data
 import random
 
 class _music_database:
@@ -46,8 +46,18 @@ class _music_database:
             return {"status": "error", "error": "music doesn't exists"}
 
     def random_user(self):
-        user_list = user.keys()
-        user = user_list[random.randint(0, len(users))]
+        user_list = self.users.keys()
+        user = user_list[random.randint(0, len(user_list))]
         music_list = self.users.get(user)
         d =  {"user_name": user, "music_list": music_list, "status": "success"}
         return d
+
+
+if __name__ == "__main__":
+    mdb = _music_database()
+    mdb.load_database("./data/test_sample.txt", 2000)
+    fans = mdb.get_music_fanlist("Dreadlock Holiday")
+    print fans
+    print fans[user][0]
+    print mdbget_user_music fans[user][0]
+    #print mdb.random_user()
