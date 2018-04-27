@@ -22,7 +22,7 @@ def recommend_user(user, mdb):
         if r > 10: break
         top_10[r] = recommend_rank[r]
         i+= 1
-
+    top_10 = {10: "aa", 8: "aaa",  5: "aaa",  7: "aaa"}
     return top_10
 
 def recommend_music(music, m):
