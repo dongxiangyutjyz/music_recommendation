@@ -59,5 +59,5 @@ if __name__ == "__main__":
     fans = mdb.get_music_fanlist("Dreadlock Holiday")
     print fans
     print fans[user][0]
-    print mdbget_user_music fans[user][0]
+    print mdb.get_user_music(fans[user][0])
     #print mdb.random_user()
