@@ -75,6 +75,8 @@ p {
   border-radius: 50%;
   font-size: 30px;
   color: #fff;
+  margin-left: auto;
+  margin-right: auto;
   line-height: 25px;
   text-align: center;
   background: #484848;
@@ -129,20 +131,27 @@ p {
   </div>
 </div>
 <script>
+function getRandomColor() {
+  var letters = '0123456789ABCDEF';
+  var color = '#';
+  for (var i = 0; i < 6; i++) {
+    color += letters[Math.floor(Math.random() * 16)];
+  }
+  return color;
+}
 function SeeRecommendation() {
   document.getElementById("recommendation").innerHTML="This is what we recommend";
+  class bubbleChild {
+    constructor() {
+      this.element = document.createElement("li");
+    }
+    set_text(text){
+      this.element.innerHTML = text;
+    }
+  }
   class bubble {
     constructor() {
       this.element = document.createElement("ol");
-      var c0 = this.element.appendChild(document.createElement("li"));
-      var c1 = this.element.appendChild(document.createElement("li"));
-      var c2 = this.element.appendChild(document.createElement("li"));
-      c0.setAttribute("id","bubble-child");
-      c1.setAttribute("id","bubble-child");
-      c2.setAttribute("id","bubble-child");
-      c0.innerHTML = "here0";
-      c1.innerHTML = "here1";
-      c2.innerHTML = "here2";
       this.element.setAttribute("id","bubble");
       document.body.appendChild(this.element);
       this.element.style.border = "3px solid";
@@ -157,27 +166,53 @@ function SeeRecommendation() {
       this.element.style.top = y;
     }
   }
-  var numberList = document.getElementById("rec_list");
-  var num;
-  var rad = 360/10;
-  var posx = 600;
-  var posy = 800;
-  var radius = 350;
-  for (var i = 1; i < 11; i++){
-    var newbub = new bubble();
-    newbub.set_x((posx+Math.sin(rad*i*3.141592697989/180)*radius).toString().concat("px"));
-    newbub.set_y((posy+Math.cos(rad*i*3.141592697989/180)*radius).toString().concat("px"));
-  }
   var xhttp = new XMLHttpRequest();
+  var responses;
   xhttp.onreadystatechange = function() {
     if (xhttp.readyState == 4 && xhttp.status == 200){
-      var responses = JSON.parse(xhttp.responseText);
+      responses = JSON.parse(xhttp.responseText);
     }
-    xhttp.open("GET","/search",true);
-    xhttp.send(null);
-    console.log("Success");
+    var numberList = document.getElementById("rec_list");
+    var num = Object.keys(responses).length-1;
+    var rad = 360/num;
+    var rad = 360/10;
+    var posx = 600;
+    var posy = 800;
+    var radius = 350;
+    var name = responses["user_name"];
+    var keys = Object.keys(responses);
+    var i = 1;
+    for ((key,value) in responses){
+      if (key=="user_name"){
+        continue;
+      } else {
+        var newbub = new bubble();
+        newbub.set_x((posx+Math.sin(rad*i*3.141592697989/180)*radius).toString().concat("px"));
+        newbub.set_y((posy+Math.cos(rad*i*3.141592697989/180)*radius).toString().concat("px"));
+        newbub.element.style.background = getRandomColor();
+        newbub.element.style.opacity = "0.8";
+        var c0 = newbub.element.appendChild(document.createElement("li"));
+        var c1 = newbub.element.appendChild(document.createElement("li"));
+        var c2 = newbub.element.appendChild(document.createElement("li"));
+        c0.setAttribute("id","bubble-child");
+        c1.setAttribute("id","bubble-child");
+        c2.setAttribute("id","bubble-child");
+        c0.innerHTML = value;
+        c1.innerHTML = key;
+        c2.innerHTML = "here2";
+      }
+      i++;
+    }
+    /*for (var i = 1; i < 11; i++){
+      var newbub = new bubble();
+      newbub.set_x((posx+Math.sin(rad*i*3.141592697989/180)*radius).toString().concat("px"));
+      newbub.set_y((posy+Math.cos(rad*i*3.141592697989/180)*radius).toString().concat("px"));
+    }*/
+    console.log("Success", responses);
     //document.getElementById("userName").innerHTML = responses;
   }
+  xhttp.open("GET","http://localhost:8000/search",true);
+  xhttp.send(null);
 }
 </script>
 </body>
